@@ -7,19 +7,16 @@ import pymysql.cursors
 
 class Sql_pool:
 
-    def __init__( self ):
-        self.connection = pymysql.connect(
-            host = 'localhost', user = '',
-            password = '',
-            db = '', charset = 'utf8',
-            cursorclass = pymysql.cursors.DictCursor
-        )
+    def __init__(self):
+        self.connection = pymysql.connect(host='localhost', user='',
+        password='', db='', charset='utf8',
+        cursorclass=pymysql.cursors.DictCursor)
 
-    def sql_exc( self, sql_command ):
+    def sql_exc(self, sql_command):
         temp = None
         try:
             with self.connection.cursor() as cursor:
-                cursor.execute( sql_command )
+                cursor.execute(sql_command)
                 temp = cursor.fetchall()
             self.connection.commit()
         except Exception:
@@ -34,7 +31,7 @@ class Sql_pool:
 class Pattern(Sql_pool):
     '''This class contains patterns with sql queries.'''
 
-    def select_id( self, idP ):
+    def select_id(self, idP):
         '''
         :param idP: Project id.
         :return: Project domain.
@@ -84,7 +81,7 @@ class Pattern(Sql_pool):
         temp = [i["word"] for i in self.sql_exc(sql)]
         return temp
 
-    def add_from_base( self, id, r, f, p ):
+    def add_from_base(self, id, r, f, p):
         '''
         :param id: Project id.
         :param r: Query word.
@@ -95,7 +92,8 @@ class Pattern(Sql_pool):
 
         # Sql request.
         sql = "INSERT INTO `requests_promoted` " \
-              "(`projectId`, `request`, `frequency`, `position`, `competitors`)" \
+              "(`projectId`, `request`, `frequency`,"\
+              "`position`, `competitors`)" \
               " VALUES ({0}, '{1}' , '{2}' ,'{3}' , ' ' )"
 
         # Request.
@@ -112,7 +110,7 @@ class Pattern(Sql_pool):
               "WHERE `requests_promoted`.`projectId` = %i"
 
         # Request.
-        self.sql_exc( sql % project)
+        self.sql_exc(sql % project)
 
     def select_region(self, p_id):
         '''
@@ -134,5 +132,3 @@ class Pattern(Sql_pool):
             return lr
         else:
             return 0
-
-
