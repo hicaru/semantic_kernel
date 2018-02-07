@@ -1,6 +1,6 @@
 '''
-key = '441993aed7c28ccb2511c2d74d31d62a'
-user = 'fantomcheg25@gmail.com'
+key = ''
+user = ''
 '''
 from re import findall
 from requests import get
