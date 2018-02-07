@@ -12,7 +12,7 @@ import json
 # A copy of the database operation.
 SQL = Pattern()
 
-
+# Choosing an array of negative keywords.
 MINUS_W = [1]
 
 
