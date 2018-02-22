@@ -3,7 +3,7 @@ import main
 import sys
 
 
-def main(method, project_id):
+def valid(method, project_id):
     """Test on method.
     :param method: Method valid.
     :param project_id: Project id in DB.
@@ -42,4 +42,4 @@ if __name__ == '__main__':
 
     # Method received shell.
     method = sys.argv[2]
-    main(method, project_id)
+    valid(method, project_id)
