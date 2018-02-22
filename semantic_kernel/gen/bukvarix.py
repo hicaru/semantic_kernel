@@ -10,11 +10,11 @@ from yaml import load
 from urllib.parse import urlencode
 
 
-class Bukvarix_auto(object):
-    '''
+class BukvarixAuto(object):
+    """
     This class collects semantics
     automatically, for a given domain.
-    '''
+    """
 
     # Yandex.
     y_url = "http://www.bukvarix.com/" \
@@ -31,12 +31,12 @@ class Bukvarix_auto(object):
 
     @classmethod
     def get(cls, domain, *args, serch='y') -> object:
-        '''
+        """
         :param domain: Domain web site.
         :param args: Parameters for the method cr.
         :param serch: Use yandex and google.
         :return: Generator.
-        '''
+        """
 
         # Parameter check.
         if serch == 'y':
@@ -63,10 +63,10 @@ class Bukvarix_auto(object):
 
     @staticmethod
     def _parse(data: object) -> object:
-        '''
+        """
         :param content: html_content
         :return: dict
-        '''
+        """
 
         data = "{%s}" % data
 
@@ -119,11 +119,11 @@ class Bukvarix(object):
 
     @staticmethod
     def __get_dict(dump):
-        '''
+        """
         :type dump: object-(dictionaries)
         :param dump: dump_csv_file
         :yield: dictionaries
-        '''
+        """
         k = 0  # the_variable_is_the_counter
         step = 3  # constant_is_the_iteration_step
 
@@ -146,10 +146,10 @@ class Bukvarix(object):
 
 
 class BukForm(object):
-    '''
+    """
     The initializer takes 2 arrays (q4, q5).
     The date produces an array with data.
-    '''
+    """
 
     # Url for POST request.
     url = 'http://www.bukvarix.com/mkeywords/'
@@ -158,10 +158,10 @@ class BukForm(object):
     p = r'\r\n\t\t"data": (.+?)\r\n\r\n\r\n\t\t\r\n\r\n\t\t\t\r\n   }'
 
     def __init__(self, q4, q5):
-        '''
+        """
         :param q4: Array query word.
         :param q5: Array minus word.
-        '''
+        """
 
         # String for valide data.
         query_word = ''
@@ -187,9 +187,9 @@ class BukForm(object):
 
     @property
     def data(self):
-        '''
+        """
         :return: Array.
-        '''
+        """
 
         # Open session bukvarix.
         with requests.session() as r:

@@ -1,7 +1,3 @@
-'''
-key = ''
-user = ''
-'''
 from re import findall
 from requests import get
 
@@ -9,12 +5,12 @@ from requests import get
 class Scan:
 
     def __init__(self, domain, query, lr, **kwargs):
-        '''
+        """
         :param domain: domain search.
         :param query: query in search.
         :param lr: Region in yandex.
         :param kwargs: api_key and user_api.
-        '''
+        """
         # Domain address, without (www).
         self.domain = domain
         # Query string.
@@ -24,7 +20,7 @@ class Scan:
 
         # Simple check for the
         # presence of a parameter.
-        if "key" in kwargs and 'user' in kwargs:
+        if 'key' in kwargs and 'user' in kwargs:
             self.key = kwargs['key']
             self.user = kwargs['user']
         else:
@@ -46,11 +42,10 @@ class Scan:
         self._data = {}
 
     def pos(self, data):
-        '''
+        """
         :param data: array data.
         :return: Position.
-        '''
-
+        """
         for i, j in enumerate(data):
             if self.domain.lower() in j.lower():
                 # +1 to position

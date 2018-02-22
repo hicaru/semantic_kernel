@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-'''This module determines the theme of the site.'''
+"""This module determines the theme of the site."""
 import re
 import requests
 
@@ -9,9 +9,9 @@ class SubjectsSite(object):
     shop = r'(корзин|Корзин|cart|Cart)'
 
     def __init__(self, domain):
-        '''
+        """
         :param domain: Domain web site.
-        '''
+        """
 
         self.domain = domain
 
@@ -23,9 +23,9 @@ class SubjectsSite(object):
 
     @property
     def data(self):
-        '''
+        """
         :return: property.
-        '''
+        """
 
         # Create a query.
         r = requests.get(self.url)

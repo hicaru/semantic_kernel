@@ -1,64 +1,50 @@
-'''
+"""
 This module contains the basic logic of working
 with the database and the assembly of semantics.
-'''
+"""
 from sql_ import Pattern
 from xml_monsrt import Scan
 from minus_word import sort
-from bukvarix import (Bukvarix_auto, Bukvarix, BukForm)
+from bukvarix import (BukvarixAuto, Bukvarix, BukForm)
 import json
-
 
 # A copy of the database operation.
 SQL = Pattern()
 
-# Choosing an array of negative keywords.
 MINUS_W = [1]
 
 
 def auto_sem(id):
-    '''
-    Automatic collection of domain semantics.
+    """Automatic collection of domain semantics.
     :param id: Project id.
     :param url: Project domain.
     :return: None.
-    '''
+    """
 
     url = SQL.select_id(id)
 
-    sem = Bukvarix_auto.get(url)
+    sem = BukvarixAuto.get(url)
 
     minus_word = SQL.select_minus_word(MINUS_W)
 
     sem = sort(sem, minus_word)
 
     for i in sem:
-        position = {
-            "0": {
-                "g": "-",
-                "y": i['Position']
-            }
-        }
+        position = {"0": {"g": "-", "y": i['Position']}}
 
-        SQL.add_from_base(id, i['quiry'],
-                          i['Frequency'],
+        SQL.add_from_base(id, i['quiry'], i['Frequency'],
                           json.dumps(position, ensure_ascii=False))
 
 
 def query_sem(id, query, ko):
-    '''
+    """
     :param id: Project id.
     :param url: Project domain.
     :param ko: Max count semantics.
     :return: None.
-    '''
+    """
 
-    position = {
-        "0": {
-            "g": "-",
-            "y": '-'
-        }
-    }
+    position = {"0": {"g": "-", "y": '-'}}
 
     # Max range result.
     k = 0
@@ -72,10 +58,8 @@ def query_sem(id, query, ko):
             type(int(i['quiry']))
             continue
         except Exception:
-            SQL.add_from_base(id, i['quiry'],
-                              i['frequency_all_world'],
-                              json.dumps(position,
-                                         ensure_ascii=False))
+            SQL.add_from_base(id, i['quiry'], i['frequency_all_world'],
+                              json.dumps(position, ensure_ascii=False))
         # This number 300 at max range result.
         if k > ko:
             break
@@ -84,29 +68,26 @@ def query_sem(id, query, ko):
 
 
 def cr_sem(id, query):
-    '''
-    Check for the method, this method is
+    """Check for the method, this method is
     responsible for collecting semantics by competitors.
     :param id: Project id.
     :param url: Project domain.
     :param query: query string.
     :return: None.
-    '''
+    """
 
     # API key for xml_monstr.
     # User for xml_monstr.
-    key = ''
-    user = ''
+    key = '441993aed7c28ccb2511c2d74d31d62a'
+    user = 'fantomcheg25@gmail.com'
 
     lr = SQL.select_region(id)
     url = SQL.select_id(id)
 
     # Collects competitors.
-    data = Scan(url, query, lr,
-                key=key, user=user).data['full']
+    data = Scan(url, query, lr, key=key, user=user).data['full']
 
-    sem = Bukvarix_auto.get(url, data[0], data[1],
-                            data[2], data[3], serch='cr')
+    sem = BukvarixAuto.get(url, data[0], data[1], data[2], data[3], serch='cr')
 
     # Minus words assembly.
     minus_word = SQL.select_minus_word(MINUS_W)
@@ -115,23 +96,17 @@ def cr_sem(id, query):
 
     # DB entry.
     for i in sem:
-        position = {
-            "0": {
-                "g": "-",
-                "y": i['Position']
-            }
-        }
+        position = {"0": {"g": "-", "y": i['Position']}}
 
-        SQL.add_from_base(id, i['quiry'], i['Frequency'],
-                                json.dumps(position, ensure_ascii=False))
+        SQL.add_from_base(id, i['quiry'], i['Frequency'], json.dumps(position, ensure_ascii=False))
 
 
 def form_sem(id, array_id):
-    '''
+    """
     :param id: Project id.
     :param array_id: Array ids minus word.
     :return: None.
-    '''
+    """
 
     # Minus word array.
     q5 = SQL.select_minus_word(array_id)
@@ -146,12 +121,5 @@ def form_sem(id, array_id):
 
     # Enumeration write to the database.
     for i in data:
-        position = {
-            "0": {
-                "g": "-",
-                "y": "-"
-            }
-        }
-
-        SQL.add_from_base(id, i[0], i[3],
-                                json.dumps(position, ensure_ascii=False))
+        position = {"0": {"g": "-", "y": "-"}}
+        SQL.add_from_base(id, i[0], i[3], json.dumps(position, ensure_ascii=False))
