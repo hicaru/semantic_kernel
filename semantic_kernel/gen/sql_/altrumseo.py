@@ -10,7 +10,7 @@ class Sql_pool:
     def __init__(self):
         self.connection=pymysql.connect(
             host='localhost', user='root',
-            password='stNPmxhzYRU6Btcw',
+            password='stNPmxhzYRssU6Btcw',
             db='altrumseo', charset='utf8',
             cursorclass=pymysql.cursors.DictCursor
         )
