@@ -1,25 +1,25 @@
-'''
+"""
 This module is completely
 devoted to work with the database.
-'''
+"""
 import pymysql.cursors
 
 
 class Sql_pool:
 
-    def __init__( self ):
-        self.connection = pymysql.connect(
-            host = 'localhost', user = 'root',
-            password = 'stNPmxhzYRU6Btcw',
-            db = 'altrumseo', charset = 'utf8',
-            cursorclass = pymysql.cursors.DictCursor
+    def __init__(self):
+        self.connection=pymysql.connect(
+            host='localhost', user='root',
+            password='stNPmxhzYRU6Btcw',
+            db='altrumseo', charset='utf8',
+            cursorclass=pymysql.cursors.DictCursor
         )
 
-    def sql_exc( self, sql_command ):
+    def sql_exc(self, sql_command):
         temp = None
         try:
             with self.connection.cursor() as cursor:
-                cursor.execute( sql_command )
+                cursor.execute(sql_command)
                 temp = cursor.fetchall()
             self.connection.commit()
         except Exception:
@@ -32,13 +32,13 @@ class Sql_pool:
 
 
 class Pattern(Sql_pool):
-    '''This class contains patterns with sql queries.'''
+    """This class contains patterns with sql queries."""
 
     def select_id( self, idP ):
-        '''
+        """
         :param idP: Project id.
         :return: Project domain.
-        '''
+        """
 
         # Sql request.
         sql = 'SELECT `domain` FROM `projects` ' \
@@ -49,10 +49,10 @@ class Pattern(Sql_pool):
         return temp[0]['domain']
 
     def select_requests(self, idP):
-        '''
+        """
         :param idP: Project id.
         :return: Array query.
-        '''
+        """
 
         # Sql request.
         sql = 'SELECT `request`, `position` FROM ' \
@@ -63,10 +63,10 @@ class Pattern(Sql_pool):
         return temp
 
     def select_minus_word(self, id_word):
-        '''
+        """
         :param id_word: Show minus word.
         :return: Array minus word.
-        '''
+        """
 
         ids = ''
 
@@ -85,13 +85,13 @@ class Pattern(Sql_pool):
         return temp
 
     def add_from_base( self, id, r, f, p ):
-        '''
+        """
         :param id: Project id.
         :param r: Query word.
         :param f: Frequency this word.
         :param p: Json string with position query word.
         :return: None.
-        '''
+        """
 
         # Sql request.
         sql = "INSERT INTO `requests_promoted` " \
@@ -102,10 +102,10 @@ class Pattern(Sql_pool):
         self.sql_exc(sql.format(str(id), r, str(f), p))
 
     def delite(self, project):
-        '''
+        """
         :param project: Project id.
         :return: None.
-        '''
+        """
 
         # Sql request.
         sql = "DELETE FROM `altrumseo`.`requests_promoted` " \
@@ -115,10 +115,10 @@ class Pattern(Sql_pool):
         self.sql_exc( sql % project)
 
     def select_region(self, p_id):
-        '''
+        """
         :param p_id: Project id.
         :return: If do't in stock region id 0.
-        '''
+        """
 
         # Sql request.
         sql = 'SELECT `region_id_list` FROM' \
